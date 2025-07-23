@@ -6,9 +6,7 @@ import { BrowserRouter } from 'react-router-dom';
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
     <BrowserRouter>
-      <App />
+      <App /> {/* App handles all internal routes */}
     </BrowserRouter>
   </React.StrictMode>
 );
-import './index.css'; // Assuming you have some global styles
-import { createStore } from 'zustand';  
