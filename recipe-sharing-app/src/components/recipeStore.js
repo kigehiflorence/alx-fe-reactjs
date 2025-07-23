@@ -15,6 +15,20 @@ export const useRecipeStore = create((set) => ({
       recipes: [...state.recipes, recipe],
     })),
 
+  // Update a recipe
+  updateRecipe: (updatedRecipe) =>
+    set((state) => ({
+      recipes: state.recipes.map((r) =>
+        r.id === updatedRecipe.id ? updatedRecipe : r
+      ),
+    })),
+
+  // Delete a recipe
+  deleteRecipe: (recipeId) =>
+    set((state) => ({
+      recipes: state.recipes.filter((r) => r.id !== recipeId),
+    })),
+
   // Add favorite
   addFavorite: (recipeId) =>
     set((state) => ({
@@ -33,6 +47,4 @@ export const useRecipeStore = create((set) => ({
       const recommended = state.recipes.filter(
         (r) => state.favorites.includes(r.id) && Math.random() > 0.5
       );
-      return { recommendations: recommended };
-    }),
-}));
+      return { recommendations: recommended
