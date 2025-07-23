@@ -1,46 +1,32 @@
+// src/components/recipeStore.js
 import { create } from 'zustand';
 
-export const useRecipeStore = create((set, get) => ({
+export const useRecipeStore = create((set) => ({
   recipes: [],
-  searchTerm: '',
-  filteredRecipes: [],
-  
-  addRecipe: (newRecipe) => {
-    const updatedRecipes = [...get().recipes, newRecipe];
-    set({ recipes: updatedRecipes });
-    get().filterRecipes(); // auto-update filtered list
-  },
+  favorites: [],
+  recommendations: [],
 
-  deleteRecipe: (id) => {
-    const updatedRecipes = get().recipes.filter((r) => r.id !== id);
-    set({ recipes: updatedRecipes });
-    get().filterRecipes();
-  },
+  // Add a new recipe
+  setRecipes: (newRecipes) => set({ recipes: newRecipes }),
 
-  updateRecipe: (updatedRecipe) => {
-    const updatedRecipes = get().recipes.map((r) =>
-      r.id === updatedRecipe.id ? updatedRecipe : r
-    );
-    set({ recipes: updatedRecipes });
-    get().filterRecipes();
-  },
+  // Add favorite
+  addFavorite: (recipeId) =>
+    set((state) => ({
+      favorites: [...state.favorites, recipeId],
+    })),
 
-  setSearchTerm: (term) => {
-    set({ searchTerm: term }, false);
-    get().filterRecipes(); // trigger filter when search term updates
-  },
+  // Remove favorite
+  removeFavorite: (recipeId) =>
+    set((state) => ({
+      favorites: state.favorites.filter((id) => id !== recipeId),
+    })),
 
-  filterRecipes: () => {
-    const { recipes, searchTerm } = get();
-    const filtered = recipes.filter((recipe) =>
-      recipe.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      recipe.description.toLowerCase().includes(searchTerm.toLowerCase())
-    );
-    set({ filteredRecipes: filtered });
-  },
-
-  setRecipes: (recipes) => {
-    set({ recipes });
-    get().filterRecipes();
-  },
+  // Generate recommendations (mocked)
+  generateRecommendations: () =>
+    set((state) => {
+      const recommended = state.recipes.filter(
+        (r) => state.favorites.includes(r.id) && Math.random() > 0.5
+      );
+      return { recommendations: recommended };
+    }),
 }));
