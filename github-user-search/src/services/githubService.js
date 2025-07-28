@@ -20,16 +20,16 @@ export const fetchUserData = async (username) => {
  * @param {object} filters
  * @param {string} filters.username - GitHub username or keyword
  * @param {string} filters.location - User location
- * @param {string} filters.repos - Minimum number of repositories
+ * @param {string} filters.minRepos - Minimum number of repositories
  * @param {number} page - Page number for pagination
  * @returns {Promise<object>}
  */
-export const searchGitHubUsers = async ({ username, location, repos }, page = 1) => {
+export const searchGitHubUsers = async ({ username, location, minRepos }, page = 1) => {
   let query = [];
 
   if (username) query.push(`${username} in:login`);
   if (location) query.push(`location:${location}`);
-  if (repos) query.push(`repos:>=${repos}`);
+  if (minRepos) query.push(`repos:>=${minRepos}`);
 
   const searchQuery = query.join('+');
   const url = `https://api.github.com/search/users?q=${searchQuery}&per_page=10&page=${page}`;
