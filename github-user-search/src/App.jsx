@@ -3,8 +3,8 @@ import Search from './components/Search';
 
 const App = () => {
   return (
-    <div>
-      <h1 style={{ textAlign: 'center', marginTop: '1rem' }}>GitHub User Search</h1>
+    <div className="min-h-screen bg-gray-50">
+      <h1 className="text-2xl font-semibold text-center mt-4">GitHub User Search</h1>
       <Search />
     </div>
   );
