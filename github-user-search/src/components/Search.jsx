@@ -56,7 +56,7 @@ const Search = () => {
       setTotalCount(total_count);
       setPage(1);
     } catch {
-      setError('Looks like we can’t find the user.');
+      setError("Looks like we can't find the user");
 
     } finally {
       setLoading(false);
