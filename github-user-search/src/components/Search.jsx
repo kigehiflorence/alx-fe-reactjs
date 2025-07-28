@@ -2,52 +2,57 @@ import React, { useState } from 'react';
 import { fetchUserData } from '../services/githubService';
 
 const Search = () => {
-  const [username, setUsername] = useState('');
-  const [userData, setUserData] = useState(null);
+  const [input, setInput] = useState('');
+  const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
 
-  const handleSearch = async (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
     setError('');
-    setUserData(null);
+    setUser(null);
 
     try {
-      const data = await fetchUserData(username);
-      setUserData(data);
+      const data = await fetchUserData(input);
+      setUser(data);
     } catch (err) {
-      setError('Looks like we can’t find the user');
+      setError('Looks like we cant find the user');
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <div style={{ textAlign: 'center', marginTop: '3rem' }}>
-      <form onSubmit={handleSearch}>
+    <div style={{ textAlign: 'center', marginTop: '2rem' }}>
+      <form onSubmit={handleSubmit}>
         <input
           type="text"
-          placeholder="Enter GitHub username"
-          value={username}
-          onChange={(e) => setUsername(e.target.value)}
-          style={{ padding: '10px', width: '300px' }}
+          placeholder="Search GitHub username"
+          value={input}
+          onChange={(e) => setInput(e.target.value)}
           required
+          style={{ padding: '10px', width: '250px' }}
         />
-        <button type="submit" style={{ marginLeft: '10px', padding: '10px' }}>
+        <button type="submit" style={{ padding: '10px', marginLeft: '10px' }}>
           Search
         </button>
       </form>
 
-      {/* Conditional Rendering */}
+      {/* Conditional UI rendering */}
       {loading && <p>Loading...</p>}
-      {error && <p style={{ color: 'red' }}>{error}</p>}
-      {userData && (
-        <div style={{ marginTop: '2rem' }}>
-          <img src={userData.avatar_url} alt="avatar" width="100" style={{ borderRadius: '50%' }} />
-          <h2>{userData.name || userData.login}</h2>
-          <a href={userData.html_url} target="_blank" rel="noreferrer">
-            Visit GitHub Profile
+      {error && <p>{error}</p>}
+      {user && (
+        <div style={{ marginTop: '20px' }}>
+          <img
+            src={user.avatar_url}
+            alt="Avatar"
+            width="100"
+            style={{ borderRadius: '50%' }}
+          />
+          <h2>{user.name || user.login}</h2>
+          <a href={user.html_url} target="_blank" rel="noreferrer">
+            View GitHub Profile
           </a>
         </div>
       )}

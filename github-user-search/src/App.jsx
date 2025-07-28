@@ -1,13 +1,13 @@
 import React from 'react';
 import Search from './components/Search';
 
-function App() {
+const App = () => {
   return (
     <div>
-      <h1 style={{ textAlign: 'center', marginTop: '2rem' }}>GitHub User Search</h1>
+      <h1 style={{ textAlign: 'center', marginTop: '1rem' }}>GitHub User Search</h1>
       <Search />
     </div>
   );
-}
+};
 
 export default App;
