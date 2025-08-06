@@ -2,6 +2,17 @@ import { useState } from 'react'
 import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
 import './App.css'
+// src/App.jsx
+import UserProfile from './components/UserProfile';
+
+function App() {
+  return (
+    <div className="min-h-screen bg-white flex items-center justify-center">
+      <UserProfile />
+    </div>
+  );
+}
+
 
 function App() {
   const [count, setCount] = useState(0)
