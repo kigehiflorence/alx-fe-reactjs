@@ -9,7 +9,6 @@ const fetchPosts = async () => {
 };
 
 function PostsComponent() {
-  // useQuery automatically handles fetching, caching, error, and loading
   const {
     data: posts,
     isLoading,
@@ -18,9 +17,10 @@ function PostsComponent() {
     refetch,
     isFetching,
   } = useQuery("posts", fetchPosts, {
-    staleTime: 5000, // data is "fresh" for 5s
-    cacheTime: 1000 * 60 * 5, // cache persists for 5 mins
-    refetchOnWindowFocus: false, // don’t auto-refetch on tab focus
+    staleTime: 5000,          // data is fresh for 5s
+    cacheTime: 1000 * 60 * 5, // cache persists for 5 min
+    refetchOnWindowFocus: false,
+    keepPreviousData: true,   // ✅ keeps old data while fetching new data
   });
 
   if (isLoading) return <p className="text-blue-500">Loading posts...</p>;
@@ -51,4 +51,3 @@ function PostsComponent() {
 }
 
 export default PostsComponent;
-
