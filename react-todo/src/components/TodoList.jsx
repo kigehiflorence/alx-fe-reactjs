@@ -41,7 +41,7 @@ function TodoList() {
           placeholder="Add a new todo"
           value={newTodo}
           onChange={(e) => setNewTodo(e.target.value)}
-          aria-label="New Todo"   {/* ✅ test looks for this */}
+          aria-label="New Todo"  
         />
         <button type="submit">Add</button>
       </form>
