@@ -1,22 +1,22 @@
+// src/components/TodoList.jsx
 import React, { useState } from "react";
 
 function TodoList() {
-  const [todos, setTodos] = useState([
-    { id: 1, text: "Learn React", completed: false },
-    { id: 2, text: "Build a Todo App", completed: true },
-  ]);
-  const [newTodo, setNewTodo] = useState("");
+  const [todos, setTodos] = useState([]);
+  const [task, setTask] = useState("");
 
   const addTodo = (e) => {
     e.preventDefault();
-    if (!newTodo.trim()) return;
-    const todo = {
+    if (task.trim() === "") return;
+
+    const newTodo = {
       id: Date.now(),
-      text: newTodo,
+      text: task,
       completed: false,
     };
-    setTodos([...todos, todo]);
-    setNewTodo("");
+
+    setTodos([...todos, newTodo]);
+    setTask("");
   };
 
   const toggleTodo = (id) => {
@@ -32,19 +32,22 @@ function TodoList() {
   };
 
   return (
-    <div>
-      <h1>Todo List</h1>
+    <div className="todo-container">
+      <h2>Todo List</h2>
+
+      {/* Add Todo Form */}
       <form onSubmit={addTodo}>
         <input
           type="text"
-          placeholder="Add a new todo"
-          value={newTodo}
-          onChange={(e) => setNewTodo(e.target.value)}
+          value={task}
+          onChange={(e) => setTask(e.target.value)}
+          placeholder="Enter a task"
           aria-label="New Todo"
         />
         <button type="submit">Add</button>
       </form>
 
+      {/* Todo Items */}
       <ul>
         {todos.map((todo) => (
           <li
@@ -54,10 +57,14 @@ function TodoList() {
               textDecoration: todo.completed ? "line-through" : "none",
               cursor: "pointer",
             }}
-            data-testid="todo-item"
           >
             {todo.text}
-            <button onClick={(e) => { e.stopPropagation(); deleteTodo(todo.id); }}>
+            <button
+              onClick={(e) => {
+                e.stopPropagation(); // prevent toggle when deleting
+                deleteTodo(todo.id);
+              }}
+            >
               Delete
             </button>
           </li>
