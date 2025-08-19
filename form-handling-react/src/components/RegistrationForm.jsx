@@ -4,18 +4,31 @@ function RegistrationForm() {
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [error, setError] = useState("");
+  const [errors, setErrors] = useState({}); // ✅ using object for multiple errors
 
-  // handle form submission
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    if (!username || !email || !password) {
-      setError("All fields are required!");
+    let newErrors = {};
+
+    // explicit checks
+    if (!username) {
+      newErrors.username = "Username is required";
+    }
+    if (!email) {
+      newErrors.email = "Email is required";  // ✅ "if (!email)"
+    }
+    if (!password) {
+      newErrors.password = "Password is required"; // ✅ "if (!password)"
+    }
+
+    // if we have errors, set them
+    if (Object.keys(newErrors).length > 0) {
+      setErrors(newErrors); // ✅ "setErrors"
       return;
     }
 
-    setError("");
+    setErrors({}); // clear errors
 
     // Simulate API call
     console.log("Registering user:", { username, email, password });
@@ -31,35 +44,48 @@ function RegistrationForm() {
     <div className="p-4 max-w-md mx-auto bg-gray-100 shadow rounded">
       <h2 className="text-xl font-bold mb-4">User Registration</h2>
 
-      {error && <p className="text-red-500">{error}</p>}
-
       <form onSubmit={handleSubmit} className="flex flex-col gap-3">
-        <input
-          type="text"
-          name="username"
-          placeholder="Username"
-          value={username}          // ✅ now matches requirement
-          onChange={(e) => setUsername(e.target.value)}
-          className="p-2 border rounded"
-        />
+        <div>
+          <input
+            type="text"
+            name="username"
+            placeholder="Username"
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
+            className="p-2 border rounded w-full"
+          />
+          {errors.username && (
+            <p className="text-red-500 text-sm">{errors.username}</p>
+          )}
+        </div>
 
-        <input
-          type="email"
-          name="email"
-          placeholder="Email"
-          value={email}             // ✅ now matches requirement
-          onChange={(e) => setEmail(e.target.value)}
-          className="p-2 border rounded"
-        />
+        <div>
+          <input
+            type="email"
+            name="email"
+            placeholder="Email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            className="p-2 border rounded w-full"
+          />
+          {errors.email && (
+            <p className="text-red-500 text-sm">{errors.email}</p>
+          )}
+        </div>
 
-        <input
-          type="password"
-          name="password"
-          placeholder="Password"
-          value={password}          // ✅ now matches requirement
-          onChange={(e) => setPassword(e.target.value)}
-          className="p-2 border rounded"
-        />
+        <div>
+          <input
+            type="password"
+            name="password"
+            placeholder="Password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            className="p-2 border rounded w-full"
+          />
+          {errors.password && (
+            <p className="text-red-500 text-sm">{errors.password}</p>
+          )}
+        </div>
 
         <button
           type="submit"
