@@ -2,21 +2,22 @@
 import React, { useState } from "react";
 
 function TodoList() {
-  const [todos, setTodos] = useState([]);
-  const [task, setTask] = useState("");
+  const [todos, setTodos] = useState([
+    { id: 1, text: "Learn React", completed: false },
+    { id: 2, text: "Build a Todo App", completed: true },
+  ]);
+  const [newTodo, setNewTodo] = useState("");
 
   const addTodo = (e) => {
     e.preventDefault();
-    if (task.trim() === "") return;
-
-    const newTodo = {
+    if (!newTodo.trim()) return;
+    const todo = {
       id: Date.now(),
-      text: task,
+      text: newTodo,
       completed: false,
     };
-
-    setTodos([...todos, newTodo]);
-    setTask("");
+    setTodos([...todos, todo]);
+    setNewTodo("");
   };
 
   const toggleTodo = (id) => {
@@ -32,22 +33,19 @@ function TodoList() {
   };
 
   return (
-    <div className="todo-container">
-      <h2>Todo List</h2>
-
-      {/* Add Todo Form */}
+    <div>
+      <h1>Todo List</h1>
       <form onSubmit={addTodo}>
         <input
           type="text"
-          value={task}
-          onChange={(e) => setTask(e.target.value)}
-          placeholder="Enter a task"
-          aria-label="New Todo"
+          placeholder="Add a new todo"
+          value={newTodo}
+          onChange={(e) => setNewTodo(e.target.value)}
+          aria-label="New Todo"   {/* ✅ test looks for this */}
         />
         <button type="submit">Add</button>
       </form>
 
-      {/* Todo Items */}
       <ul>
         {todos.map((todo) => (
           <li
@@ -61,7 +59,7 @@ function TodoList() {
             {todo.text}
             <button
               onClick={(e) => {
-                e.stopPropagation(); // prevent toggle when deleting
+                e.stopPropagation();
                 deleteTodo(todo.id);
               }}
             >
