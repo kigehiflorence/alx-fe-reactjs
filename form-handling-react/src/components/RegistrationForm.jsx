@@ -1,29 +1,16 @@
 import React, { useState } from "react";
 
 function RegistrationForm() {
-  const [formData, setFormData] = useState({
-    username: "",
-    email: "",
-    password: "",
-  });
-
+  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const [error, setError] = useState("");
-
-  // handle input changes
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData({
-      ...formData,
-      [name]: value,
-    });
-  };
 
   // handle form submission
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    // simple validation
-    if (!formData.username || !formData.email || !formData.password) {
+    if (!username || !email || !password) {
       setError("All fields are required!");
       return;
     }
@@ -31,11 +18,13 @@ function RegistrationForm() {
     setError("");
 
     // Simulate API call
-    console.log("Registering user:", formData);
-    alert(`User ${formData.username} registered successfully!`);
+    console.log("Registering user:", { username, email, password });
+    alert(`User ${username} registered successfully!`);
 
     // Reset form
-    setFormData({ username: "", email: "", password: "" });
+    setUsername("");
+    setEmail("");
+    setPassword("");
   };
 
   return (
@@ -49,8 +38,8 @@ function RegistrationForm() {
           type="text"
           name="username"
           placeholder="Username"
-          value={formData.username}
-          onChange={handleChange}
+          value={username}          // ✅ now matches requirement
+          onChange={(e) => setUsername(e.target.value)}
           className="p-2 border rounded"
         />
 
@@ -58,8 +47,8 @@ function RegistrationForm() {
           type="email"
           name="email"
           placeholder="Email"
-          value={formData.email}
-          onChange={handleChange}
+          value={email}             // ✅ now matches requirement
+          onChange={(e) => setEmail(e.target.value)}
           className="p-2 border rounded"
         />
 
@@ -67,8 +56,8 @@ function RegistrationForm() {
           type="password"
           name="password"
           placeholder="Password"
-          value={formData.password}
-          onChange={handleChange}
+          value={password}          // ✅ now matches requirement
+          onChange={(e) => setPassword(e.target.value)}
           className="p-2 border rounded"
         />
 
